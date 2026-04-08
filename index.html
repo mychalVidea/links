@@ -128,6 +128,7 @@
         }
 
         .glass-btn:hover {
+            transition-delay: 0s !important;
             transform: translateY(-12px) scale(1.08) rotateX(10deg);
             background: rgba(255, 255, 255, 0.15);
             color: #fff;
@@ -255,10 +256,6 @@
             transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1);
         }
 
-        .glass-container:not(.idle-hide) .glass-btn {
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
         .glass-container:not(.idle-hide) .glass-btn:nth-child(1) {
             transition-delay: 0.1s;
         }
@@ -278,6 +275,12 @@
         .glass-container:not(.idle-hide) .glass-btn:nth-child(5) {
             transition-delay: 0.5s;
         }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(6) {
+            transition-delay: 0.6s;
+        }
+
+        /* PŘIDÁNO: Pro 6. tlačítko */
 
         .mouse-hint {
             position: fixed;
@@ -623,6 +626,136 @@
                 opacity: 0;
             }
         }
+
+        .rain-container {
+            position: absolute;
+            top: -100%;
+            left: -50%;
+            width: 200%;
+            height: 300%;
+            /* Obrovský kontejner, abychom neviděli okraje */
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transform: rotate(12deg);
+            /* Mírný vítr, kapky padají šikmo */
+        }
+
+        .body-loaded .rain-container {
+            animation: fade-in-rain 3s ease forwards;
+            animation-delay: 1.5s;
+        }
+
+        .rain-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Vrstva 1: Popředí - 3 různě rozházené kapky, pomalejší */
+        .rain-1 {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='30' y1='10' x2='30' y2='60' stroke='rgba(255, 255, 255, 0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='150' y1='120' x2='150' y2='200' stroke='rgba(255, 255, 255, 0.4)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='250' y1='50' x2='250' y2='90' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-size: 300px 300px;
+            animation: rain-drop 0.8s linear infinite;
+            /* Zpomaleno z 0.4s */
+        }
+
+        /* Vrstva 2: Střed - drobnější kapky, jiná rychlost */
+        .rain-2 {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='50' y1='40' x2='50' y2='80' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3Cline x1='130' y1='150' x2='130' y2='170' stroke='rgba(255, 255, 255, 0.15)' stroke-width='0.8' stroke-linecap='round'/%3E%3Cline x1='180' y1='20' x2='180' y2='40' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            animation: rain-drop 1.2s linear infinite;
+            /* Zpomaleno z 0.6s */
+        }
+
+        /* Vrstva 3: Pozadí - drobný mlhavý déšť */
+        .rain-3 {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='40' y1='20' x2='40' y2='40' stroke='rgba(255, 255, 255, 0.1)' stroke-width='0.5' stroke-linecap='round'/%3E%3Cline x1='90' y1='100' x2='90' y2='115' stroke='rgba(255, 255, 255, 0.1)' stroke-width='0.5' stroke-linecap='round'/%3E%3Cline x1='140' y1='70' x2='140' y2='85' stroke='rgba(255, 255, 255, 0.08)' stroke-width='0.4' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-size: 150px 150px;
+            animation: rain-drop 1.8s linear infinite;
+            /* Zpomaleno z 0.9s */
+        }
+
+        /* Posouváme celou vrstvu (využívá GPU = plynulé). 600px je násobek 100, 150 i 200, takže se animace u všech vrstev dokonale zacyklí. */
+        @keyframes rain-drop {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(600px);
+            }
+        }
+
+        @keyframes fade-in-rain {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .leaf-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 16px;
+            height: 16px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23a3b18a"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            animation: leaf-fall 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes leaf-fall {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(100px) scale(0) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Zkrácený a ostřejší flash efekt */
+        .flash-effect {
+            animation: storm-flash 0.3s linear !important;
+            mix-blend-mode: normal !important;
+        }
+
+        @keyframes storm-flash {
+            0% {
+                color: #fff;
+                text-shadow: 0 0 20px #fff, 0 0 50px #fff, 0 0 80px #fff;
+                filter: brightness(2);
+            }
+
+            33% {
+                color: rgba(255, 255, 255, 0.3);
+                text-shadow: none;
+                filter: brightness(1);
+            }
+
+            66% {
+                color: #fff;
+                text-shadow: 0 0 30px #fff, 0 0 60px #fff;
+                filter: brightness(2.5);
+            }
+
+            /* Okamžitý návrat do původního stavu těsně před koncem animace */
+            100% {
+                color: rgba(255, 255, 255, 0.85);
+                text-shadow: 4px 0px 0px rgba(255, 0, 0, 0.4), -4px 0px 0px rgba(0, 255, 255, 0.4);
+                filter: brightness(1);
+            }
+        }
     </style>
 </head>
 
@@ -636,6 +769,11 @@
     <div class="parallax-wrapper" id="parallax-container">
         <div class="layer bg-deep" data-speed="2"></div>
         <div class="layer bg-mid" data-speed="4"></div>
+        <div class="rain-container layer" data-speed="5">
+            <div class="rain-layer rain-1"></div>
+            <div class="rain-layer rain-2"></div>
+            <div class="rain-layer rain-3"></div>
+        </div>
         <h1 class="glitch-text" data-speed="6">MYCHAL</h1>
         <div class="layer bg-front" data-speed="12"></div>
 
@@ -645,6 +783,9 @@
             </a>
             <a href="https://discord.gg/HwZUGWGVD9" class="glass-btn">
                 Discord
+            </a>
+            <a href="https://6767111.xyz/" class="glass-btn">
+                BEST WEBSITE
             </a>
             <a href="https://kick.com/mychalvidea" class="glass-btn">
                 KICK
@@ -757,7 +898,7 @@
                 document.body.classList.add('body-loaded');
 
                 setTimeout(() => {
-                    document.querySelectorAll('.layer, .glitch-text').forEach(el => {
+                    document.querySelectorAll('.layer:not(.rain-container), .glitch-text').forEach(el => {
                         el.style.animation = 'none';
                         el.style.opacity = '1';
                     });
@@ -765,6 +906,58 @@
                     resetIdleTimer();
                 }, 2800);
             }, 1000);
+        });
+        // --- LOGIKA PRO LÍSTKY NA KURZORU ---
+        let lastLeafTime = 0;
+
+        document.addEventListener("mousemove", function (e) {
+            if (document.body.classList.contains('transition-active')) return;
+
+            const now = Date.now();
+            // Vytvoří lístek maximálně každých 40 milisekund (aby to nebylo moc náročné)
+            if (now - lastLeafTime < 40) return;
+            lastLeafTime = now;
+
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf-particle');
+
+            // Mírný náhodný rozptyl od samotné špičky kurzoru
+            const offsetX = (Math.random() - 0.5) * 30;
+            const offsetY = (Math.random() - 0.5) * 30;
+
+            leaf.style.left = (e.clientX + offsetX) + 'px';
+            leaf.style.top = (e.clientY + offsetY) + 'px';
+
+            // Každý list začne s trošku jinou rotací
+            const startRot = Math.random() * 360;
+            leaf.style.transform = `rotate(${startRot}deg)`;
+
+            document.body.appendChild(leaf);
+
+            // Smaže lístek z HTML po skončení animace (1.5 sekundy)
+            setTimeout(() => {
+                leaf.remove();
+            }, 1500);
+        });
+        const mychalElement = document.querySelector('.glitch-text');
+
+        document.addEventListener('click', (e) => {
+            // Pokud klikneme na tlačítko, nechceme blesk, chceme jít na odkaz
+            if (e.target.closest('.glass-btn')) return;
+
+            // Pokud animace už běží, zrušíme ji a restartujeme (aby to šlo spamovat)
+            mychalElement.classList.remove('flash-effect');
+
+            // Tohle je malý hack, který donutí prohlížeč načíst element znovu, aby se animace ihned restartovala
+            void mychalElement.offsetWidth;
+
+            // Přidáme efekt blesku
+            mychalElement.classList.add('flash-effect');
+
+            // Odebereme třídu po 0.5 sekundách (podle CSS)
+            setTimeout(() => {
+                mychalElement.classList.remove('flash-effect');
+            }, 300); // TADY ZMĚNĚNO z 500 na 300
         });
     </script>
 
