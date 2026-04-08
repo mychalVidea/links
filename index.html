@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links | mychal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background-color: #030604;
+        }
+
+        .parallax-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .layer {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .bg-deep {
+            background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=3000&auto=format&fit=crop');
+            z-index: 1;
+            filter: blur(14px) brightness(0.4);
+        }
+
+        .bg-mid {
+            background-image: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=3000&auto=format&fit=crop');
+            z-index: 2;
+            filter: blur(2px) brightness(0.55);
+            -webkit-mask-image: linear-gradient(to top, transparent 10%, black 70%);
+        }
+
+        .glitch-text {
+            position: absolute;
+            z-index: 3;
+            font-size: 16vw;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-shadow: 4px 0px 0px rgba(255, 0, 0, 0.4), -4px 0px 0px rgba(0, 255, 255, 0.4);
+        }
+
+        .bg-front {
+            background-image: url('https://cdn.pixabay.com/photo/2021/10/11/18/58/vine-6701552_1280.png');
+            z-index: 4;
+            filter: blur(6px) brightness(0.35);
+            opacity: 0.9;
+            background-size: 110% auto;
+            background-position: top center;
+            background-repeat: no-repeat;
+        }
+
+        .glass-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .layer.centering,
+        .glitch-text.centering,
+        .glass-container.centering {
+            transition: transform 1.2s cubic-bezier(0.1, 0, 0.2, 1) !important;
+        }
+
+        .glass-btn {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 18px 40px;
+            border-radius: 20px;
+            width: 320px;
+            text-align: center;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
+
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px;
+        }
+
+        .glass-btn:hover {
+            transform: translateY(-12px) scale(1.08) rotateX(10deg);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            letter-spacing: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+
+            text-shadow: 4px 0px 0px rgba(255, 0, 0, 0.9), -4px 0px 0px rgba(0, 255, 255, 0.9);
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+
+            backdrop-filter: blur(40px) saturate(200%);
+        }
+
+        .glass-btn::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            font-size: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-btn:hover::after {
+            right: 25px;
+            opacity: 1;
+        }
+
+        .glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
+            transform: skewX(-35deg);
+            transition: left 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .glass-btn:hover::before {
+            left: 150%;
+        }
+
+        .btn-subtext {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.7;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-transform: none;
+        }
+
+        body.transition-active {
+            pointer-events: none;
+        }
+
+        body.transition-active .glass-container {
+            opacity: 0;
+            transform: scale(0.5) translateY(-100px) !important;
+            transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        body.transition-active .glitch-text {
+            z-index: 1000;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            animation: text-jawdrop 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards !important;
+        }
+
+        body.transition-active .parallax-wrapper {
+            animation: wrapper-jawdrop 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+        }
+
+        @keyframes text-jawdrop {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                letter-spacing: 10px;
+                opacity: 1;
+                filter: brightness(1) blur(0);
+            }
+
+            30% {
+                transform: translate(-50%, -50%) scale(1.5);
+                letter-spacing: 50px;
+                filter: brightness(5) blur(2px) contrast(200%);
+                text-shadow: 20px 0 0 #f00, -20px 0 0 #0ff;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(15);
+                letter-spacing: 200px;
+                opacity: 0;
+                filter: brightness(10) blur(20px);
+            }
+        }
+
+        @keyframes wrapper-jawdrop {
+            0% {
+                transform: scale(1) rotate(0);
+                filter: brightness(1) blur(0) contrast(100%);
+            }
+
+            40% {
+                transform: scale(0.8) rotate(-5deg);
+                filter: brightness(2) contrast(150%) hue-rotate(90deg);
+            }
+
+            100% {
+                transform: scale(10) rotate(15deg);
+                filter: brightness(0) blur(100px) contrast(500%);
+            }
+        }
+
+        .glass-container.idle-hide .glass-btn {
+            opacity: 0 !important;
+            transform: translateY(50px) scale(0.8) !important;
+            filter: blur(10px);
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn {
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .glass-container:not(.idle-hide) .glass-btn:nth-child(5) {
+            transition-delay: 0.5s;
+        }
+
+        .mouse-hint {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            font-weight: 400;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease, transform 1s ease;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .mouse-hint.hidden {
+            opacity: 0 !important;
+            transform: translateX(-50%) translateY(-20px) !important;
+        }
+
+        .body-loaded .mouse-hint {
+            animation: hint-appear 2s ease forwards;
+            animation-delay: 3.5s;
+        }
+
+        @keyframes hint-appear {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .mouse-hint span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            animation: mouse-bounce 2s infinite;
+        }
+
+        @keyframes mouse-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translateY(10px);
+                opacity: 0.8;
+            }
+        }
+
+        .mouse-hint {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            font-weight: 400;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease, transform 1s ease;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .mouse-hint.hidden {
+            opacity: 0 !important;
+            transform: translateX(-50%) translateY(-20px) !important;
+        }
+
+        .body-loaded .mouse-hint {
+            animation: hint-appear 2s ease forwards;
+            animation-delay: 3.5s;
+        }
+
+        @keyframes hint-appear {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .mouse-hint span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            animation: mouse-bounce 2s infinite;
+        }
+
+        @keyframes mouse-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translateY(10px);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes crazy-glitch {
+            0% {
+                clip-path: inset(20% 0 30% 0);
+                transform: translate(-50%, -50%) skew(5deg);
+            }
+
+            20% {
+                clip-path: inset(60% 0 10% 0);
+                transform: translate(-52%, -48%) skew(-5deg);
+            }
+
+            40% {
+                clip-path: inset(10% 0 70% 0);
+                transform: translate(-48%, -52%) skew(2deg);
+            }
+
+            60% {
+                clip-path: inset(40% 0 40% 0);
+                transform: translate(-51%, -49%) skew(-2deg);
+            }
+
+            80% {
+                clip-path: inset(80% 0 5% 0);
+                transform: translate(-49%, -51%) skew(8deg);
+            }
+
+            100% {
+                clip-path: inset(20% 0 30% 0);
+                transform: translate(-50%, -50%) skew(5deg);
+            }
+        }
+
+        .fade-in-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.transition-active .fade-in-overlay {
+            opacity: 1;
+            transition: opacity 0.3s ease 0.6s;
+        }
+
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .intro-loader {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-loader::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: loader-slide 1.5s infinite;
+        }
+
+        @keyframes loader-slide {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .intro-screen.finished {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .layer,
+        .glitch-text,
+        .glass-container {
+            opacity: 0;
+        }
+
+        .glass-btn {
+            opacity: 1;
+        }
+
+        .body-loaded .bg-deep {
+            animation: layer-entry 1.8s cubic-bezier(0.1, 0, 0.2, 1) forwards;
+            animation-delay: 1.0s;
+        }
+
+        .body-loaded .bg-mid {
+            animation: layer-entry 1.8s cubic-bezier(0.1, 0, 0.2, 1) forwards;
+            animation-delay: 1.1s;
+        }
+
+        .body-loaded .bg-front {
+            animation: layer-entry 1.8s cubic-bezier(0.1, 0, 0.2, 1) forwards;
+            animation-delay: 1.2s;
+        }
+
+        .body-loaded .glitch-text {
+            animation: text-entry 1.5s cubic-bezier(0.1, 0, 0.2, 1) forwards;
+            animation-delay: 1.3s;
+            opacity: 0;
+        }
+
+        .body-loaded .glass-container {
+            opacity: 1;
+        }
+
+        @keyframes layer-entry {
+            0% {
+                opacity: 0;
+                transform: scale(3) rotate(10deg);
+                filter: brightness(5) blur(50px) contrast(200%);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                filter: brightness(1) blur(0) contrast(100%);
+            }
+        }
+
+        @keyframes text-entry {
+            0% {
+                opacity: 0;
+                transform: scale(0.1) translateY(100px);
+                filter: blur(20px) brightness(5);
+                letter-spacing: 100px;
+            }
+
+            50% {
+                opacity: 1;
+                filter: blur(10px) brightness(2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0) brightness(1);
+                letter-spacing: 10px;
+            }
+        }
+
+        @keyframes btn-entry {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(50px);
+                filter: blur(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .start-glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1500;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .body-loaded .start-glitch-overlay {
+            animation: start-flash 1.8s ease-out forwards;
+            animation-delay: 0s;
+        }
+
+        @keyframes start-flash {
+            0% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            25% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            55% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="transition-init">
+    <div class="intro-screen" id="intro-screen">
+        <div class="intro-loader"></div>
+    </div>
+    <div class="start-glitch-overlay"></div>
+    <div class="fade-in-overlay"></div>
+
+    <div class="parallax-wrapper" id="parallax-container">
+        <div class="layer bg-deep" data-speed="2"></div>
+        <div class="layer bg-mid" data-speed="4"></div>
+        <h1 class="glitch-text" data-speed="6">MYCHAL</h1>
+        <div class="layer bg-front" data-speed="12"></div>
+
+        <div class="glass-container idle-hide" data-speed="8">
+            <a href="https://youtube.com/mychalVidea/join" class="glass-btn">
+                YouTube
+            </a>
+            <a href="https://discord.gg/HwZUGWGVD9" class="glass-btn">
+                Discord
+            </a>
+            <a href="https://kick.com/mychalvidea" class="glass-btn">
+                KICK
+            </a>
+            <a href="https://cs.namemc.com/profile/mychalVidea.1" class="glass-btn">
+                NameMC
+            </a>
+            <a href="https://www.fortnite.com/@mychal" class="glass-btn">
+                Fortnite
+            </a>
+        </div>
+        <div class="mouse-hint" id="mouse-hint">
+            Mouse
+            <span>↓</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("mousemove", function (e) {
+            if (document.body.classList.contains('transition-active')) return;
+
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            document.querySelectorAll(".layer, .glitch-text, .glass-container").forEach(function (layer) {
+                if (layer.classList.contains('centering')) {
+                    layer.classList.remove('centering');
+                }
+
+                const speed = layer.getAttribute("data-speed");
+                const x = (mouseX * speed) / 100;
+                const y = (mouseY * speed) / 100;
+                layer.style.transform = `translateX(${-x}px) translateY(${-y}px)`;
+            });
+        });
+
+        document.addEventListener("mouseleave", function () {
+            document.querySelectorAll(".layer, .glitch-text, .glass-container").forEach(function (layer) {
+                layer.classList.add('centering');
+                layer.style.transform = `translateX(0px) translateY(0px)`;
+            });
+        });
+
+        let idleTimer;
+        let isMouseOverButtons = false;
+        let introFinished = false;
+        const glassContainer = document.querySelector('.glass-container');
+        const mouseHint = document.getElementById('mouse-hint');
+
+        glassContainer.addEventListener('mouseenter', () => {
+            isMouseOverButtons = true;
+            resetIdleTimer();
+        });
+
+        glassContainer.addEventListener('mouseleave', () => {
+            isMouseOverButtons = false;
+            resetIdleTimer();
+        });
+
+        function resetIdleTimer() {
+            if (!introFinished) return;
+
+            glassContainer.classList.remove('idle-hide');
+            if (mouseHint) {
+                mouseHint.classList.add('hidden');
+            }
+
+            clearTimeout(idleTimer);
+
+            if (!isMouseOverButtons) {
+                idleTimer = setTimeout(() => {
+                    if (!isMouseOverButtons) {
+                        glassContainer.classList.add('idle-hide');
+                    }
+                }, 4000);
+            }
+        }
+
+        document.addEventListener("mousemove", resetIdleTimer);
+        document.addEventListener("mouseenter", resetIdleTimer);
+        document.addEventListener("mouseleave", () => {
+            if (!introFinished) return;
+            idleTimer = setTimeout(() => {
+                if (!isMouseOverButtons) {
+                    glassContainer.classList.add('idle-hide');
+                }
+            }, 2000);
+        });
+
+        document.querySelectorAll('.glass-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+
+                document.body.classList.add('transition-active');
+
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 1300);
+            });
+        });
+
+        window.addEventListener('load', () => {
+            const intro = document.getElementById('intro-screen');
+
+            setTimeout(() => {
+                intro.classList.add('finished');
+                document.body.classList.add('body-loaded');
+
+                setTimeout(() => {
+                    document.querySelectorAll('.layer, .glitch-text').forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.opacity = '1';
+                    });
+                    introFinished = true;
+                    resetIdleTimer();
+                }, 2800);
+            }, 1000);
+        });
+    </script>
+
+</body>
+
+</html>
