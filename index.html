@@ -761,9 +761,21 @@
         }
 
         .body-loaded .views-counter {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 3s;
+            animation: views-entry 1.5s cubic-bezier(0.1, 0, 0.2, 1) forwards;
+            animation-delay: 3.5s;
+        }
+
+        @keyframes views-entry {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px) scale(0.8);
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+            }
         }
 
         .views-counter:hover {
@@ -1106,17 +1118,18 @@
             });
         });
 
-        // --- VIEWS LOGIC (CounterAPI.dev) ---
+        // --- VIEWS LOGIC (Tvoje vlastní API) ---
         async function updateViews() {
             try {
-                // Přepnuto na stabilnější CounterAPI.dev
-                // Formát: https://api.counterapi.dev/v1/NAMESPACE/KEY/up
-                const response = await fetch('https://api.counterapi.dev/v1/mychal/linktree/up');
+                // Tvoje doménové API - nastaveno na /hit
+                const response = await fetch('https://api.6767111.xyz/hit');
                 const data = await response.json();
-
-                // U CounterAPI se výsledek jmenuje "count" (ne "value")
-                if (data.count) {
-                    document.getElementById('views-count').textContent = data.count.toLocaleString();
+                
+                // Zkoušíme najít číslo v "count", "value", "views" nebo v celém objektu
+                const count = data.count || data.value || data.views || (typeof data === 'number' ? data : null);
+                
+                if (count !== null) {
+                    document.getElementById('views-count').textContent = count.toLocaleString();
                 }
             } catch (error) {
                 console.log("Counter error:", error);
