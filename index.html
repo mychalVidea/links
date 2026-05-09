@@ -280,68 +280,6 @@
             transition-delay: 0.6s;
         }
 
-        /* PŘIDÁNO: Pro 6. tlačítko */
-
-        .mouse-hint {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            font-weight: 400;
-            z-index: 1001;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease, transform 1s ease;
-            text-transform: uppercase;
-            text-align: center;
-        }
-
-        .mouse-hint.hidden {
-            opacity: 0 !important;
-            transform: translateX(-50%) translateY(-20px) !important;
-        }
-
-        .body-loaded .mouse-hint {
-            animation: hint-appear 2s ease forwards;
-            animation-delay: 3.5s;
-        }
-
-        @keyframes hint-appear {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        .mouse-hint span {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.2rem;
-            animation: mouse-bounce 2s infinite;
-        }
-
-        @keyframes mouse-bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: translateY(10px);
-                opacity: 0.8;
-            }
-        }
-
         .mouse-hint {
             position: fixed;
             bottom: 60px;
@@ -570,20 +508,6 @@
             }
         }
 
-        @keyframes btn-entry {
-            0% {
-                opacity: 0;
-                transform: scale(0.5) translateY(50px);
-                filter: blur(10px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
-        }
-
         .start-glitch-overlay {
             position: fixed;
             top: 0;
@@ -633,12 +557,10 @@
             left: -50%;
             width: 200%;
             height: 300%;
-            /* Obrovský kontejner, abychom neviděli okraje */
             pointer-events: none;
             z-index: 2;
             opacity: 0;
             transform: rotate(12deg);
-            /* Mírný vítr, kapky padají šikmo */
         }
 
         .body-loaded .rain-container {
@@ -654,31 +576,24 @@
             height: 100%;
         }
 
-        /* Vrstva 1: Popředí - 3 různě rozházené kapky, pomalejší */
         .rain-1 {
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='30' y1='10' x2='30' y2='60' stroke='rgba(255, 255, 255, 0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='150' y1='120' x2='150' y2='200' stroke='rgba(255, 255, 255, 0.4)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='250' y1='50' x2='250' y2='90' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
             background-size: 300px 300px;
             animation: rain-drop 0.8s linear infinite;
-            /* Zpomaleno z 0.4s */
         }
 
-        /* Vrstva 2: Střed - drobnější kapky, jiná rychlost */
         .rain-2 {
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='50' y1='40' x2='50' y2='80' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3Cline x1='130' y1='150' x2='130' y2='170' stroke='rgba(255, 255, 255, 0.15)' stroke-width='0.8' stroke-linecap='round'/%3E%3Cline x1='180' y1='20' x2='180' y2='40' stroke='rgba(255, 255, 255, 0.2)' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
             background-size: 200px 200px;
             animation: rain-drop 1.2s linear infinite;
-            /* Zpomaleno z 0.6s */
         }
 
-        /* Vrstva 3: Pozadí - drobný mlhavý déšť */
         .rain-3 {
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='40' y1='20' x2='40' y2='40' stroke='rgba(255, 255, 255, 0.1)' stroke-width='0.5' stroke-linecap='round'/%3E%3Cline x1='90' y1='100' x2='90' y2='115' stroke='rgba(255, 255, 255, 0.1)' stroke-width='0.5' stroke-linecap='round'/%3E%3Cline x1='140' y1='70' x2='140' y2='85' stroke='rgba(255, 255, 255, 0.08)' stroke-width='0.4' stroke-linecap='round'/%3E%3C/svg%3E");
             background-size: 150px 150px;
             animation: rain-drop 1.8s linear infinite;
-            /* Zpomaleno z 0.9s */
         }
 
-        /* Posouváme celou vrstvu (využívá GPU = plynulé). 600px je násobek 100, 150 i 200, takže se animace u všech vrstev dokonale zacyklí. */
         @keyframes rain-drop {
             0% {
                 transform: translateY(0);
@@ -724,7 +639,6 @@
             }
         }
 
-        /* Zkrácený a ostřejší flash efekt */
         .flash-effect {
             animation: storm-flash 0.3s linear !important;
             mix-blend-mode: normal !important;
@@ -749,12 +663,133 @@
                 filter: brightness(2.5);
             }
 
-            /* Okamžitý návrat do původního stavu těsně před koncem animace */
             100% {
                 color: rgba(255, 255, 255, 0.85);
                 text-shadow: 4px 0px 0px rgba(255, 0, 0, 0.4), -4px 0px 0px rgba(0, 255, 255, 0.4);
                 filter: brightness(1);
             }
+        }
+
+        /* --- VOLUME SLIDER STYLE --- */
+        .audio-wrapper {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1005;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+            opacity: var(--audio-opacity, 0.15);
+            transform: translateY(var(--audio-translate, 20px)) scale(var(--audio-scale, 0.9));
+            transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+            pointer-events: var(--audio-pointer, none);
+        }
+
+        .audio-wrapper:hover,
+        .audio-wrapper.active {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .volume-icon {
+            color: #fff;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .volume-icon:hover {
+            opacity: 1;
+        }
+
+        #volume-slider {
+            -webkit-appearance: none;
+            width: 100px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        #volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+        }
+
+        /* --- VIEWS COUNTER STYLE --- */
+        .views-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1005;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .body-loaded .views-counter {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 3s;
+        }
+
+        .views-counter:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            transform: translateY(-5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .views-icon {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #views-count {
+            font-family: monospace;
+            letter-spacing: 0;
+        }
+
+        /* --- AFK HIDE PRO ROHY --- */
+        .audio-wrapper.idle-hide,
+        .views-counter.idle-hide {
+            opacity: 0 !important;
+            transform: translateY(30px) scale(0.8) !important;
+            pointer-events: none !important;
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1) !important;
         }
     </style>
 </head>
@@ -793,10 +828,26 @@
             <a href="https://cs.namemc.com/profile/mychalVidea.1" class="glass-btn">
                 NameMC
             </a>
-            <a href="https://www.fortnite.com/@mychal" class="glass-btn">
-                Fortnite
+            <a href="https://setup-mychal.vercel.app" class="glass-btn">
+                SETUP
             </a>
         </div>
+
+        <audio id="bg-music" loop>
+            <source src="sam gellaitry - assumptions.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="audio-wrapper">
+            <div class="volume-icon" id="mute-toggle">🔊</div>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="views-counter">
+            <span class="views-icon">👁️</span>
+            <span>VIEWS:</span>
+            <span id="views-count">...</span>
+        </div>
+
         <div class="mouse-hint" id="mouse-hint">
             Mouse
             <span>↓</span>
@@ -836,6 +887,13 @@
         let introFinished = false;
         const glassContainer = document.querySelector('.glass-container');
         const mouseHint = document.getElementById('mouse-hint');
+        const bgMusic = document.getElementById('bg-music');
+        const volumeSlider = document.getElementById('volume-slider');
+        const muteToggle = document.getElementById('mute-toggle');
+        const audioWrapper = document.querySelector('.audio-wrapper');
+        const mychalElement = document.querySelector('.glitch-text');
+
+        bgMusic.volume = 0.5;
 
         glassContainer.addEventListener('mouseenter', () => {
             isMouseOverButtons = true;
@@ -847,20 +905,27 @@
             resetIdleTimer();
         });
 
+        // --- IDLE HIDE (Schovávání prvků) ---
         function resetIdleTimer() {
             if (!introFinished) return;
-
+            
+            const viewsCounter = document.querySelector('.views-counter');
+            
+            // Zobrazit vše
             glassContainer.classList.remove('idle-hide');
-            if (mouseHint) {
-                mouseHint.classList.add('hidden');
-            }
-
+            audioWrapper.classList.remove('idle-hide');
+            if (viewsCounter) viewsCounter.classList.remove('idle-hide');
+            
+            if (mouseHint) mouseHint.classList.add('hidden');
             clearTimeout(idleTimer);
 
             if (!isMouseOverButtons) {
                 idleTimer = setTimeout(() => {
                     if (!isMouseOverButtons) {
+                        // Schovat vše
                         glassContainer.classList.add('idle-hide');
+                        audioWrapper.classList.add('idle-hide');
+                        if (viewsCounter) viewsCounter.classList.add('idle-hide');
                     }
                 }, 4000);
             }
@@ -897,6 +962,11 @@
                 intro.classList.add('finished');
                 document.body.classList.add('body-loaded');
 
+                // SPUŠTĚNÍ HUDBY HNED JAK VYJEDE NÁPIS (PO LOADUNGU)
+                bgMusic.play().catch(error => {
+                    console.log("Autoplay byl zablokován, čekám na interakci po loadingu.");
+                });
+
                 setTimeout(() => {
                     document.querySelectorAll('.layer:not(.rain-container), .glitch-text').forEach(el => {
                         el.style.animation = 'none';
@@ -905,60 +975,155 @@
                     introFinished = true;
                     resetIdleTimer();
                 }, 2800);
-            }, 1000);
+                // --- LOGIKA PRO LÍSTKY NA KURZORU ---
+                let lastLeafTime = 0;
+
+                document.addEventListener("mousemove", function (e) {
+                    if (document.body.classList.contains('transition-active')) return;
+
+                    const now = Date.now();
+                    // Vytvoří lístek maximálně každých 40 milisekund (aby to nebylo moc náročné)
+                    if (now - lastLeafTime < 40) return;
+                    lastLeafTime = now;
+
+                    const leaf = document.createElement('div');
+                    leaf.classList.add('leaf-particle');
+
+                    // Mírný náhodný rozptyl od samotné špičky kurzoru
+                    const offsetX = (Math.random() - 0.5) * 30;
+                    const offsetY = (Math.random() - 0.5) * 30;
+
+                    leaf.style.left = (e.clientX + offsetX) + 'px';
+                    leaf.style.top = (e.clientY + offsetY) + 'px';
+
+                    // Každý list začne s trošku jinou rotací
+                    const startRot = Math.random() * 360;
+                    leaf.style.transform = `rotate(${startRot}deg)`;
+
+                    document.body.appendChild(leaf);
+
+                    // Smaže lístek z HTML po skončení animace (1.5 sekundy)
+                    setTimeout(() => {
+                        leaf.remove();
+                    }, 1500);
+                });
+                const mychalElement = document.querySelector('.glitch-text');
+
+                document.addEventListener('click', (e) => {
+                    // Pokud klikneme na tlačítko, nechceme blesk, chceme jít na odkaz
+                    if (e.target.closest('.glass-btn')) return;
+
+                    // Pokud animace už běží, zrušíme ji a restartujeme (aby to šlo spamovat)
+                    mychalElement.classList.remove('flash-effect');
+
+                    // Tohle je malý hack, který donutí prohlížeč načíst element znovu, aby se animace ihned restartovala
+                    void mychalElement.offsetWidth;
+
+                    // Přidáme efekt blesku
+                    mychalElement.classList.add('flash-effect');
+
+                    // Odebereme třídu po 0.5 sekundách (podle CSS)
+                    setTimeout(() => {
+                        mychalElement.classList.remove('flash-effect');
+                    }, 300); // TADY ZMĚNĚNO z 500 na 300
+                });
+
+                // --- AUDIO LOGIC ---
+                // (Definice přesunuty na začátek)
+
+                // Funkce pro spuštění (použije se i jako fallback)
+                const startAudio = () => {
+                    // Nepřehrávat během černé obrazovky, ale jakmile vyjede nápis, tak už jo
+                    if (!document.body.classList.contains('body-loaded')) return;
+
+                    bgMusic.play().then(() => {
+                        document.removeEventListener('click', startAudio);
+                        document.removeEventListener('mousemove', startAudio);
+                    }).catch(e => { });
+                };
+
+                // Fallbacky, kdyby autoplay po loadingu selhal
+                document.addEventListener('click', startAudio);
+                document.addEventListener('mousemove', startAudio, { once: true });
+
+                volumeSlider.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    bgMusic.volume = val;
+                    muteToggle.textContent = val == 0 ? '🔇' : (val < 0.5 ? '🔉' : '🔊');
+                });
+
+                muteToggle.addEventListener('click', () => {
+                    if (bgMusic.muted) {
+                        bgMusic.muted = false;
+                        muteToggle.textContent = volumeSlider.value < 0.5 ? '🔉' : '🔊';
+                    } else {
+                        bgMusic.muted = true;
+                        muteToggle.textContent = '🔇';
+                    }
+                });
+
+                // --- PROXIMITY LOGIC PRO VOLUME SLIDER ---
+                const audioWrapper = document.querySelector('.audio-wrapper');
+                let isDragging = false;
+
+                volumeSlider.addEventListener('mousedown', () => isDragging = true);
+                window.addEventListener('mouseup', () => isDragging = false);
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!introFinished) return;
+
+                    const rect = audioWrapper.getBoundingClientRect();
+                    const wrapperX = rect.left + rect.width / 2;
+                    const wrapperY = rect.top + rect.height / 2;
+
+                    const distX = e.clientX - wrapperX;
+                    const distY = e.clientY - wrapperY;
+                    const distance = Math.sqrt(distX * distX + distY * distY);
+
+                    // Nastavení rádiusu (zvětšeno na 800px pro lepší detekci z dálky)
+                    const maxDist = 800;
+                    let proximity = 1 - (distance / maxDist);
+
+                    // Základní viditelnost (0.15), aby byl ovladač vždy trochu vidět
+                    proximity = Math.max(0.15, Math.min(proximity, 1));
+
+                    if (isDragging || distance < 120) {
+                        proximity = 1;
+                    }
+
+                    // Aplikování efektu přes CSS proměnné
+                    audioWrapper.style.setProperty('--audio-opacity', proximity);
+                    audioWrapper.style.setProperty('--audio-scale', 0.9 + (proximity * 0.1));
+                    audioWrapper.style.setProperty('--audio-translate', (20 - (proximity * 20)) + 'px');
+                    audioWrapper.style.setProperty('--audio-pointer', proximity > 0.1 ? 'all' : 'none');
+
+                    if (proximity > 0.5) {
+                        audioWrapper.classList.add('active');
+                    } else {
+                        audioWrapper.classList.remove('active');
+                    }
+                });
+            });
         });
-        // --- LOGIKA PRO LÍSTKY NA KURZORU ---
-        let lastLeafTime = 0;
 
-        document.addEventListener("mousemove", function (e) {
-            if (document.body.classList.contains('transition-active')) return;
+        // --- VIEWS LOGIC (CounterAPI.dev) ---
+        async function updateViews() {
+            try {
+                // Přepnuto na stabilnější CounterAPI.dev
+                // Formát: https://api.counterapi.dev/v1/NAMESPACE/KEY/up
+                const response = await fetch('https://api.counterapi.dev/v1/mychal/linktree/up');
+                const data = await response.json();
 
-            const now = Date.now();
-            // Vytvoří lístek maximálně každých 40 milisekund (aby to nebylo moc náročné)
-            if (now - lastLeafTime < 40) return;
-            lastLeafTime = now;
-
-            const leaf = document.createElement('div');
-            leaf.classList.add('leaf-particle');
-
-            // Mírný náhodný rozptyl od samotné špičky kurzoru
-            const offsetX = (Math.random() - 0.5) * 30;
-            const offsetY = (Math.random() - 0.5) * 30;
-
-            leaf.style.left = (e.clientX + offsetX) + 'px';
-            leaf.style.top = (e.clientY + offsetY) + 'px';
-
-            // Každý list začne s trošku jinou rotací
-            const startRot = Math.random() * 360;
-            leaf.style.transform = `rotate(${startRot}deg)`;
-
-            document.body.appendChild(leaf);
-
-            // Smaže lístek z HTML po skončení animace (1.5 sekundy)
-            setTimeout(() => {
-                leaf.remove();
-            }, 1500);
-        });
-        const mychalElement = document.querySelector('.glitch-text');
-
-        document.addEventListener('click', (e) => {
-            // Pokud klikneme na tlačítko, nechceme blesk, chceme jít na odkaz
-            if (e.target.closest('.glass-btn')) return;
-
-            // Pokud animace už běží, zrušíme ji a restartujeme (aby to šlo spamovat)
-            mychalElement.classList.remove('flash-effect');
-
-            // Tohle je malý hack, který donutí prohlížeč načíst element znovu, aby se animace ihned restartovala
-            void mychalElement.offsetWidth;
-
-            // Přidáme efekt blesku
-            mychalElement.classList.add('flash-effect');
-
-            // Odebereme třídu po 0.5 sekundách (podle CSS)
-            setTimeout(() => {
-                mychalElement.classList.remove('flash-effect');
-            }, 300); // TADY ZMĚNĚNO z 500 na 300
-        });
+                // U CounterAPI se výsledek jmenuje "count" (ne "value")
+                if (data.count) {
+                    document.getElementById('views-count').textContent = data.count.toLocaleString();
+                }
+            } catch (error) {
+                console.log("Counter error:", error);
+                document.getElementById('views-count').textContent = "---";
+            }
+        }
+        updateViews();
     </script>
 
 </body>
