@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Links | mychal</title>
+    <link rel="icon" type="image/png" href="https://6767111.xyz/icon/linkslogo.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
 
@@ -771,6 +772,7 @@
                 transform: translateX(-50px) scale(0.8);
                 filter: blur(10px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateX(0) scale(1);
@@ -920,14 +922,14 @@
         // --- IDLE HIDE (Schovávání prvků) ---
         function resetIdleTimer() {
             if (!introFinished) return;
-            
+
             const viewsCounter = document.querySelector('.views-counter');
-            
+
             // Zobrazit vše
             glassContainer.classList.remove('idle-hide');
             audioWrapper.classList.remove('idle-hide');
             if (viewsCounter) viewsCounter.classList.remove('idle-hide');
-            
+
             if (mouseHint) mouseHint.classList.add('hidden');
             clearTimeout(idleTimer);
 
@@ -1124,10 +1126,10 @@
                 // Tvoje doménové API - nastaveno na /hit
                 const response = await fetch('https://api.6767111.xyz/hit');
                 const data = await response.json();
-                
+
                 // Zkoušíme najít číslo v "count", "value", "views" nebo v celém objektu
                 const count = data.count || data.value || data.views || (typeof data === 'number' ? data : null);
-                
+
                 if (count !== null) {
                     document.getElementById('views-count').textContent = count.toLocaleString();
                 }
